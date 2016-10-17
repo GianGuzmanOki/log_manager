@@ -1,0 +1,15 @@
+development:
+  rotation_frequency: daily
+  saved_files: 7
+  compress: true
+
+
+test:
+  rotation_frequency: daily
+  saved_files: 7
+  compress: true
+
+production:
+  rotation_frequency: daily
+  saved_files: 7
+  compress: true
