@@ -30,18 +30,28 @@ module LogManager
       f.puts('  copytruncate')
       f.puts('}')
     end
+    return true
   end
 
   def self.project_name
-    Dir.pwd.to_s.split('/').last
+    self.path.split('/').last
   end
 
   def self.setup enviroment = 'development'
-    config = YAML::load(File.open(File.join(Dir.pwd, 'config', "log_manager.yml")))
-    enviroment_config = config[enviroment]
-    @rotation_frequency = enviroment_config['rotation_frequency']
-    @saved_files = enviroment_config['saved_files']
-    @compress = enviroment_config['compress']
+    if self.validate_file
+      config = YAML::load(File.open(File.join(Dir.pwd, 'config', "log_manager.yml")))
+      enviroment_config = config[enviroment]
+      @rotation_frequency = enviroment_config['rotation_frequency']
+      @saved_files = enviroment_config['saved_files']
+      @compress = enviroment_config['compress']
+      return true
+    else
+      "File doesnt exists yet, please run 'rails generate log_manager:install"
+    end
+  end
+
+  def self.validate_file
+    return File.open(File.join(Dir.pwd, 'config', "log_manager.yml")).exist?
   end
 
 end
