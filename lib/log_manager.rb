@@ -39,7 +39,7 @@ module LogManager
 
   def self.setup enviroment = 'development'
     if self.validate_file
-      config = YAML::load(File.open(File.join(Dir.pwd, 'config', "log_manager.yml")))
+      config = YAML::load(File.open(LogManager.file_path))
       enviroment_config = config[enviroment]
       @rotation_frequency = enviroment_config['rotation_frequency']
       @saved_files = enviroment_config['saved_files']
@@ -51,7 +51,11 @@ module LogManager
   end
 
   def self.validate_file
-    return File.open(File.join(Dir.pwd, 'config', "log_manager.yml")).exist?
+    File.exist?(LogManager.file_path)
+  end
+
+  def self.file_path
+    File.join(Dir.pwd, 'config', "log_manager.yml")
   end
 
 end
